@@ -41,19 +41,19 @@ plaintext
 Copy
 Quiz-React-project/
 ├── src/
-│   ├── components/
-│   │   ├── layout/
-│   │   │   ├── Header.jsx
-│   │   │   ├── Footer.jsx
-│   │   │   └── index.jsx
-│   │   └── Section/
-│   │       └── QuizIntroScreen.jsx
-│   ├── Pages/
-│   │   ├── QuizCategory.jsx
-│   │   └── QuizQuestions.jsx
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
+│ ├── components/
+│ │ ├── layout/
+│ │ │ ├── Header.jsx
+│ │ │ ├── Footer.jsx
+│ │ │ └── index.jsx
+│ │ └── Section/
+│ │ └── QuizIntroScreen.jsx
+│ ├── Pages/
+│ │ ├── QuizCategory.jsx
+│ │ └── QuizQuestions.jsx
+│ ├── App.jsx
+│ ├── main.jsx
+│ └── index.css
 ├── public/
 ├── package.json
 └── README.md
