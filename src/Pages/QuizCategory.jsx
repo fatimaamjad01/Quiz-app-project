@@ -1,5 +1,5 @@
 import React ,{useState} from "react";
-import {useLocation, Link} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 
  const quiz_data = [
     {
@@ -217,17 +217,41 @@ import {useLocation, Link} from "react-router-dom";
       ]
     }
   ]
-  function QuizCategory() {
+
+
+function QuizCategory() {
+    const navigate = useNavigate();
     const [SelectOption, setSelectOption] = useState();
     const [QuizCategory, setCategory] = useState();
     const questionOptions = [5, 10, 15, 20, 25, 30];
 
+    const handleStartQuiz = (categoryData) => {
+      // Selected category ka complete data
+      const selectedQuestions = categoryData.questions.slice(0, SelectOption);
+      
+      // State ke through data pass karna
+      navigate(`/quiz/${categoryData.category}/questions=${SelectOption}`, {
+        state: {
+          category: categoryData.category,
+          questionCount: SelectOption,
+          questions: selectedQuestions,
+         
+          totalAvailableQuestions: categoryData.questions.length
+        }
+      });
+    };
+
     return (
       
-      <div className=" text-center text-white space-y-5 bg-black">
+      <div
+        className="text-center text-white space-y-5 "
+        style={{
+          backgroundImage: "url('https://images.pexels.com/photos/2680270/pexels-photo-2680270.jpeg')",
+        }}
+      >
       
         
-        <h2>Quiz Categories</h2>
+     
         <div className="mb-4">
           <label className="block mb-2">
             <p>Select Category</p>
@@ -266,24 +290,25 @@ import {useLocation, Link} from "react-router-dom";
             ))}
           </select>
         </div>
+
         <ul className="flex flex-wrap justify-center gap-6">
           {quiz_data
-            .filter((cat) => !QuizCategory || cat.category === QuizCategory)
+            .filter((cat) => !QuizCategory || cat.category === QuizCategory )
             .map((category, index) => (
               <li key={index}>
-                <Link
-                  to={
-                    QuizCategory && SelectOption
-                      ? `/quiz/${category.category}/questions=${SelectOption}`
-                      : "#"
-                  }
+        <img src={category.Image} alt={category.category} className="w-48 h-48 object-cover mt-2 rounded" />
+                    <br />
+                <button
+                  onClick={() => handleStartQuiz(category)}
+                  disabled={!QuizCategory || !SelectOption}
                   className={`text-white hover:text-gray-300 block ${
-                    QuizCategory && SelectOption ? "" : "pointer-events-none opacity-50"
-                  }`}
+                    QuizCategory && SelectOption 
+                      ? "bg-blue-500 hover:bg-blue-700 cursor-pointer" 
+                      : "pointer-events-none opacity-50 bg-gray-500"
+                  } font-bold py-2 px-4 rounded`}
                 >
-                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Start {category.category} quiz</button>
-                </Link>
-                <img src={category.Image} alt={category.category} className="w-48 h-48 object-cover mt-2 rounded" />
+                 Start {category.category} quiz
+                </button>
               </li>
             ))}
         </ul>
