@@ -31,7 +31,7 @@ const QuizIntroScreen = () => {
       </p>
      
       </div>
-      <Link to="/QuizCategory">
+      <Link to="/category">
         <button className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">
           Start Quiz
         </button> 

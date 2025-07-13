@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState} from "react";
 import {useLocation, Link} from "react-router-dom";
 
  const quiz_data = [
@@ -218,47 +218,79 @@ import {useLocation, Link} from "react-router-dom";
     }
   ]
   function QuizCategory() {
+    const [SelectOption, setSelectOption] = useState();
+    const [QuizCategory, setCategory] = useState();
+    const questionOptions = [5, 10, 15, 20, 25, 30];
+
     return (
       
       <div className=" text-center text-white space-y-5 bg-black">
-        <div>
-          <select className="bg-gray-800 text-white p-2 rounded">
-            <option value="all">Select Number</option>
-            <option value="category">5</option>
-            <option value="category">10</option>
-            <option value="category">15</option>
-            <option value="category">20</option>
-            <option value="category">25</option>
-            <option value="category">30</option>
-
-            </select>
-        </div>
+      
+        
         <h2>Quiz Categories</h2>
-        <ul>
-          {quiz_data.map((category, index) => (
-            <li key={index}>
-              <h2>{category.category}</h2>
-              <img 
-              src={category.Image}
-              alt="category.category"
-              />
-              <ul>
-                {category.questions.map((question, qIndex) => (
-                  <li key={qIndex}>
-                    <p><strong>Question:</strong> {question.question}</p>
-                    <p><strong>Options:</strong> {question.options}</p>
-                    <p><strong>Answer:</strong> {question.answer}</p>
-                    <p><strong>Difficulty Level:</strong> {question.difficulty_level}</p>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
+        <div className="mb-4">
+          <label className="block mb-2">
+            <p>Select Category</p>
+          </label>
+          <select
+            value={QuizCategory || ""}
+            onChange={(e) => setCategory(e.target.value)}
+            className="bg-gray-800 text-white p-2 rounded"
+          >
+            <option value="" disabled>
+              -- Select a Category --
+            </option>
+            {quiz_data.map((category, idx) => (
+              <option key={idx} value={category.category}>
+                {category.category}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2">
+            <p>Select Number of Questions</p>
+          </label>
+          <select
+            value={SelectOption || ""}
+            onChange={(e) => setSelectOption(e.target.value)}
+            className="bg-gray-800 text-white p-2 rounded"
+          >
+            <option value="" disabled>
+              -- Select Number of Questions --
+            </option>
+            {questionOptions.map((num, idx) => (
+              <option key={idx} value={num}>
+                {num} Questions
+              </option>
+            ))}
+          </select>
+        </div>
+        <ul className="flex flex-wrap justify-center gap-6">
+          {quiz_data
+            .filter((cat) => !QuizCategory || cat.category === QuizCategory)
+            .map((category, index) => (
+              <li key={index}>
+                <Link
+                  to={
+                    QuizCategory && SelectOption
+                      ? `/quiz/${category.category}/questions=${SelectOption}`
+                      : "#"
+                  }
+                  className={`text-white hover:text-gray-300 block ${
+                    QuizCategory && SelectOption ? "" : "pointer-events-none opacity-50"
+                  }`}
+                >
+                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Start {category.category} quiz</button>
+                </Link>
+                <img src={category.Image} alt={category.category} className="w-48 h-48 object-cover mt-2 rounded" />
+              </li>
+            ))}
         </ul>
       </div>
     );
   }
-
+export default QuizCategory;
     
   
   
